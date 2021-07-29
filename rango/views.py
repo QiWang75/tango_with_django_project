@@ -7,7 +7,11 @@ from django.http import HttpResponse
 # create index view
 # each view has at least 1 argument and must return httpresponse object
 def index(request):
-    return HttpResponse("Rango says hey there partner! <a href='/rango/about/'>About</a>")
+    # construct a dictionary as content to pass to template, key matches to template
+    context_dict = {'boldmessage': 'Crunchy, creamy, cookie, candy, cupcake!'}
+
+    # return a rendered response: render(input, template filename, context dictionary)
+    return render(request, 'rango/index.html', context=context_dict)
 
 # create about view
 def about(request):
