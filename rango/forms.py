@@ -4,7 +4,7 @@ from django.template.defaultfilters import title
 from rango.models import Page, Category
 
 class CategoryForm(forms.ModelForm):
-    name = forms.CharField(max_length=128, help_text="Please enter the category name.")
+    name = forms.CharField(max_length=Category.NAME_MAX_LENGTH, help_text="Please enter the category name.") # reduce repeating
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
@@ -16,9 +16,14 @@ class CategoryForm(forms.ModelForm):
         fields = ('name',)
 
 class PageForm(forms.ModelForm):
-    title = forms.CharField(max_length=128, help_text="Please enter the title of the page.") # max length must equal to the length in data models
+    title = forms.CharField(max_length=Page.TITLE_MAX_LENGTH, help_text="Please enter the title of the page.") # max length must equal to the length in data models
     url = forms.URLField(max_length=200, help_text="Please enter the URL of the page.") # widget for inputting text
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0) # entry views and likes and hide widget
+
+    class Meta:
+        model = Page
+        # hide foreign key
+        exclude = ('category',)
 
     # clean data before store
     def clean(self):
@@ -30,8 +35,3 @@ class PageForm(forms.ModelForm):
             cleaned_data['url'] = url
 
         return cleaned_data
-
-    class Meta:
-        model = Page
-        # hide foreign key
-        exclude = ('category',)
