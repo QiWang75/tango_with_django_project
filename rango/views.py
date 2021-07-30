@@ -61,7 +61,7 @@ def add_category(request):
             # save new category ti database
             form.save(commit=True)
             # confirm and redirect user back to index view
-            return redirect('/rango/')
+            return redirect(reverse('rango:index'))
         else:
             print(form.errors)
 
@@ -74,7 +74,7 @@ def add_page(request, category_name_slug):
         category = None
 
     if category is None:
-        return redirect('/rango/')
+        return redirect(reverse('rango:index'))
 
     form = PageForm()
 
