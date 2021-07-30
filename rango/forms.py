@@ -1,7 +1,8 @@
 from django import forms
-from django.forms import fields
+from django.forms import fields, widgets
 from django.template.defaultfilters import title
-from rango.models import Page, Category
+from django.contrib.auth.models import User
+from rango.models import Page, Category, UserProfile
 
 class CategoryForm(forms.ModelForm):
     name = forms.CharField(max_length=Category.NAME_MAX_LENGTH, help_text="Please enter the category name.") # reduce repeating
@@ -35,3 +36,15 @@ class PageForm(forms.ModelForm):
             cleaned_data['url'] = url
 
         return cleaned_data
+
+class UserForm(forms.ModelForm):
+    password = forms.fields.CharField(widget=forms.widgets.PasswordInput()) # override for hidding from prying eyes
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password',)
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('website', 'picture',)

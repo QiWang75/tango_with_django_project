@@ -131,3 +131,5 @@ STATICFILES_DIRS = [STATIC_DIR, ]
 # used to set up media file hosting
 MEDIA_ROOT = MEDIA_DIR # root for media files in filesystem
 MEDIA_URL = '/media/' # URL to serve
+
+LOGIN_URL = 'rango: login'
